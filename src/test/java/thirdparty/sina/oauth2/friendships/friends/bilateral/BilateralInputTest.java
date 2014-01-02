@@ -1,11 +1,10 @@
 package thirdparty.sina.oauth2.friendships.friends.bilateral;
 
-import thirdparty.sina.SinaTestKeys;
-import com.ning.http.client.*;
 import org.junit.Test;
+import thirdparty.TestBase;
+import thirdparty.sina.SinaTestKeys;
 
-import static junit.framework.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,22 +17,7 @@ public class BilateralInputTest {
     @Test
     public void testGetUrl() throws Exception {
         BilateralInput input= new BilateralInput(SinaTestKeys.getAccesstoken2(),SinaTestKeys.getSinaUid(),200,1);
-        Request request = input.toHttpRequest();
-        AsyncHttpClient httpClient = new AsyncHttpClient();
-
-        try {
-            ListenableFuture<Object> future = httpClient.executeRequest(request,new AsyncCompletionHandler<Object>() {
-
-                @Override
-                public Object onCompleted(Response response) throws Exception {
-                    return response;
-                }
-            });
-            Response response = (Response)future.get();
-            assertNotNull(response.getResponseBody());
-            BilateralOutput output = new BilateralOutput();
-            output.fromHttpResponse(response, null);
-        } catch (Exception e) {
-        }
+        BilateralOutput output = TestBase.call(input,BilateralOutput.class);
+        assertTrue(output.getUsers().size() > 0);
     }
 }

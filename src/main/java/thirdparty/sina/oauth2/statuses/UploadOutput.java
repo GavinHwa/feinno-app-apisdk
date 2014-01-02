@@ -299,5 +299,5 @@ public class UploadOutput extends SinaOauth2Output {
 	public void setVisible(Visible visible) {
 		this.visible = visible;
 	}
-	
+
 }

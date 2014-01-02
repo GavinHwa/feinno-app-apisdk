@@ -35,7 +35,7 @@ public class Visible {
 	public void setList_id(String list_id) {
 		this.list_id = list_id;
 	}
-	public boolean isPublish() {
+	public boolean isPublic() {
 		return type.equals("0");
 	}
 }

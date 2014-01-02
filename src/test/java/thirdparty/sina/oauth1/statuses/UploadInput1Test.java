@@ -3,13 +3,11 @@
  */
 package thirdparty.sina.oauth1.statuses;
 
-import com.ning.http.client.*;
 import org.junit.Test;
+import thirdparty.TestBase;
 import thirdparty.sina.SinaTestKeys;
 
-import java.util.Random;
-
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author : shangrenpeng
@@ -156,33 +154,13 @@ public class UploadInput1Test {
 		91, -69, -16, 0, 0, 0, 0, 73, 69, 78, 68, -82, 66, 96, -126 };
 	
 	@Test
-	public void test() {
-		final String text = "这是飞信同步发图测试，新浪的工作人员请不要删除！";
-		UploadInput1 input = new UploadInput1(
-                SinaTestKeys.getAccesstoken(),
-				SinaTestKeys.getAccessSecret(), text
-						+ new Random().nextInt(50),
+	public void test() throws InstantiationException, IllegalAccessException {
+		UploadInput1 input = new UploadInput1(SinaTestKeys.getAccesstoken(),
+				SinaTestKeys.getAccessSecret(), SinaTestKeys.getMessage(),
 						pic);
-		Request request = input.toHttpRequest();
-		AsyncHttpClient httpClient = new AsyncHttpClient();
 
-		try {
-			ListenableFuture<Object> future = httpClient.executeRequest(
-					request, new AsyncCompletionHandler<Object>() {
-
-						@Override
-						public Object onCompleted(Response response)
-								throws Exception {
-							assertNotNull(response.getResponseBody());
-							UploadOutput1 output = new UploadOutput1();
-							output.fromHttpResponse(response, null);
-
-							return output;
-						}
-					});
-			future.get();
-		} catch (Exception e) {
-		}
+        UploadOutput1 output = TestBase.call(input,UploadOutput1.class);
+		assertTrue(output.outputOK());
 	}
 
 }

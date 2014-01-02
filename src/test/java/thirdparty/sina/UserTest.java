@@ -2,7 +2,8 @@ package thirdparty.sina;
 
 import org.junit.Before;
 import org.junit.Test;
-import thirdparty.sina.User;
+
+import static org.junit.Assert.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,27 +18,22 @@ public class UserTest {
 
     @Test
     public void testGetThirdUserid() throws Exception {
-
+        assertEquals("1171176422",user.getThirdUserid());
     }
 
     @Test
     public void testGetThirdName() throws Exception {
-
+        assertEquals("AppleNate",user.getThirdName());
     }
 
     @Test
     public void testGetThirdPic() throws Exception {
-
+        assertEquals("http://tp3.sinaimg.cn/1171176422/50/5630951670/1",user.getThirdPic());
     }
 
     @Test
     public void testGetThirdDomain() throws Exception {
-
-    }
-
-    @Test
-    public void testGetThirdPartyAuthor() throws Exception {
-
+        assertEquals("http://weibo.com/applenate",user.getThirdDomain());
     }
 
     @Before

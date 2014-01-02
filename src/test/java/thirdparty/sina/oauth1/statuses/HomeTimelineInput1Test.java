@@ -3,16 +3,11 @@
  */
 package thirdparty.sina.oauth1.statuses;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
-
+import thirdparty.TestBase;
 import thirdparty.sina.SinaTestKeys;
-import com.ning.http.client.AsyncCompletionHandler;
-import com.ning.http.client.AsyncHttpClient;
-import com.ning.http.client.ListenableFuture;
-import com.ning.http.client.Request;
-import com.ning.http.client.Response;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author : shangrenpeng
@@ -34,53 +29,13 @@ import com.ning.http.client.Response;
 public class HomeTimelineInput1Test {
 
 	@Test
-	public void test() {
+	public void test() throws InstantiationException, IllegalAccessException {
 		HomeTimelineInput1 input = new HomeTimelineInput1(SinaTestKeys.getAccesstoken(),SinaTestKeys.getAccessSecret(),1,0L);
-//		input.setDebug(true);
-		Request request = input.toHttpRequest();
-		AsyncHttpClient httpClient = new AsyncHttpClient();
-
-		try {
-			ListenableFuture<Object> future = httpClient.executeRequest(
-					request, new AsyncCompletionHandler<Object>() {
-
-						@Override
-						public Object onCompleted(Response response)
-								throws Exception {
-							assertNotNull(response.getResponseBody());
-							HomeTimelineOutput1 output = new HomeTimelineOutput1();
-							output.fromHttpResponse(response, null);
-
-							return output;
-						}
-					});
-			future.get();
-		} catch (Exception e) {
-		}
-		
+        HomeTimelineOutput1 output = TestBase.call(input,HomeTimelineOutput1.class);
+        assertTrue(output.outputOK());
 		input.reNewInput();
-		request = input.toHttpRequest();
-		httpClient = new AsyncHttpClient();
-		final HomeTimelineOutput1 output = new HomeTimelineOutput1();
-		output.setRetryInput(input);
-		output.setRetryTimes(3);
-
-		try {
-			ListenableFuture<Object> future = httpClient.executeRequest(
-					request, new AsyncCompletionHandler<Object>() {
-
-						@Override
-						public Object onCompleted(Response response)
-								throws Exception {
-							assertNotNull(response.getResponseBody());
-							output.fromHttpResponse(response, null);
-
-							return output;
-						}
-					});
-			future.get();
-		} catch (Exception e) {
-		}
+        output = TestBase.call(input,HomeTimelineOutput1.class);
+        assertTrue(output.outputOK());
 	}
 
 }

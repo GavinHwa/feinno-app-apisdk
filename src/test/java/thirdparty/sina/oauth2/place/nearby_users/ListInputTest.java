@@ -1,9 +1,8 @@
 package thirdparty.sina.oauth2.place.nearby_users;
 
-import com.ning.http.client.*;
 import org.junit.Test;
+import thirdparty.TestBase;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 
 /**
@@ -15,64 +14,17 @@ import static org.junit.Assert.assertNotSame;
  */
 public class ListInputTest {
     @Test
-    public void test() {
-
-        AsyncHttpClient httpClient = new AsyncHttpClient();
+    public void test() throws InstantiationException, IllegalAccessException {
         ListInput input = new ListInput(39.93f, 116.46f);
-        Request request = input.toHttpRequest();
+        ListOutput output = TestBase.call(input,ListOutput.class);
+        assertNotSame(0, output.getUsers().size());
 
-//        try {
-//            ListenableFuture<Object> future = httpClient.executeRequest(request, new AsyncCompletionHandler<Object>() {
-//
-//                @Override
-//                public Object onCompleted(Response response) throws Exception {
-//                    return response;
-//                }
-//            });
-//            Response response = (Response) future.get();
-//            assertNotNull(response.getResponseBody());
-//            ListOutput output = new ListOutput();
-//            output.fromHttpResponse(response, null);
-//            assertNotSame(0, output.getUsers().size());
-//        } catch (Exception e) {
-//        }
-//
-//        input = new ListInput(39.93f, 116.46f, 20, 1);
-//        request = input.toHttpRequest();
-//
-//        try {
-//            ListenableFuture<Object> future = httpClient.executeRequest(request, new AsyncCompletionHandler<Object>() {
-//
-//                @Override
-//                public Object onCompleted(Response response) throws Exception {
-//                    return response;
-//                }
-//            });
-//            Response response = (Response) future.get();
-//            assertNotNull(response.getResponseBody());
-//            ListOutput output = new ListOutput();
-//            output.fromHttpResponse(response, null);
-//            assertNotSame(0, output.getUsers().size());
-//        } catch (Exception e) {
-//        }
+        input = new ListInput(39.93f, 116.46f, 20, 1);
+        output = TestBase.call(input,ListOutput.class);
+        assertNotSame(0, output.getUsers().size());
 
         input = new ListInput(39.93f, 116.46f, 50, 1, 1000, 252432000, 978278400);
-        request = input.toHttpRequest();
-
-        try {
-            ListenableFuture<Object> future = httpClient.executeRequest(request, new AsyncCompletionHandler<Object>() {
-
-                @Override
-                public Object onCompleted(Response response) throws Exception {
-                    return response;
-                }
-            });
-            Response response = (Response) future.get();
-            assertNotNull(response.getResponseBody());
-            ListOutput output = new ListOutput();
-            output.fromHttpResponse(response, null);
-            assertNotSame(0, output.getUsers().size());
-        } catch (Exception e) {
-        }
+        output = TestBase.call(input,ListOutput.class);
+        assertNotSame(0, output.getUsers().size());
     }
 }

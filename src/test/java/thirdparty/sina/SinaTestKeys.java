@@ -3,6 +3,7 @@
  */
 package thirdparty.sina;
 
+import config.MessageConfig;
 import thirdparty.SnsTestKeys;
 
 /**
@@ -23,10 +24,10 @@ import thirdparty.SnsTestKeys;
  *
  */
 public class SinaTestKeys extends SnsTestKeys{
-	private static String accesstoken = "2d7b3976fb42359979da3e52e04993a4";
-	private static String accessSecret = "f291726f847331972b41c09ff804e067";
-	private static String accesstoken2 = "2.00yKvl_DhOHi_Caaeb1cd649RtBSBE";
-	private static String accessSecret2 = "2.00yKvl_DhOHi_C2718cb3b79BBhcdE";
+	private static String accesstoken = MessageConfig.sinaAccessToken1;
+	private static String accessSecret = MessageConfig.sinaAccessSecret1;
+	private static String accesstoken2 = MessageConfig.sinaAccessToken2;
+	private static String accessSecret2 = MessageConfig.sinaAccessSecret2;
     private static String sinaUid = "3040570084";
 
     public static String getSinaUid() {

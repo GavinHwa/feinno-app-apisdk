@@ -1,15 +1,12 @@
 /**
- * 
+ *
  */
 package thirdparty.sina.oauth2.statuses;
 
-import com.ning.http.client.*;
 import org.junit.Test;
+import thirdparty.TestBase;
 import thirdparty.sina.SinaTestKeys;
 import thirdparty.sina.oauth2.SinaOauth2Input;
-
-import java.io.IOException;
-import java.util.Random;
 
 import static org.junit.Assert.*;
 
@@ -26,125 +23,56 @@ import static org.junit.Assert.*;
  */
 
 /**
- * @author	shangrenpeng
- * @date	2012-10-19 下午6:14:08
- *
+ * @author shangrenpeng
+ * @date 2012-10-19 下午6:14:08
  */
 public class UpdateInputTest {
 
-	@Test
-	public void test() {
-		final String text="这是飞信同步转发测试，新浪的工作人员请不要删除！"+new Random().nextInt(50);
-		SinaOauth2Input input = new UpdateInput(SinaTestKeys.getAccesstoken2()
-				, text);
-		Request request = input.toHttpRequest();
-		AsyncHttpClient httpClient = new AsyncHttpClient();
+    @Test
+    public void test() throws InstantiationException, IllegalAccessException {
+        final String text = SinaTestKeys.getMessage();
+        SinaOauth2Input input = new UpdateInput(SinaTestKeys.getAccesstoken2()
+                , text);
+        UpdateOutput output = TestBase.call(input, UpdateOutput.class);
+        assertEquals(output.getText(), text);
+        assertTrue(output.outputOK());
+        assertFalse(output.needRetry());
+        assertFalse(output.needLog());
+    }
 
-		try {
-			ListenableFuture<Object> future = httpClient.executeRequest(request,
-					new AsyncCompletionHandler<Object>() {
+    @Test//可能会因为发布过快导致20016错误
+    public void test1() throws InstantiationException, IllegalAccessException {
+        final String text = SinaTestKeys.getMessage();
+        SinaOauth2Input input = new UpdateInput(
+                SinaTestKeys.getAccesstoken2(), text, "{test:\"test\"}");
+        UpdateOutput output = TestBase.call(input, UpdateOutput.class);
+        assertEquals(output.getText(), text);
+        assertTrue(output.outputOK());
+        assertFalse(output.needRetry());
+        assertFalse(output.needLog());
+    }
 
-						@Override
-						public Object onCompleted(Response response)
-								throws Exception {
-							assertNotNull(response.getResponseBody());
-							UpdateOutput output = new UpdateOutput();
-							output.fromHttpResponse(response, null);
-							assertEquals(output.getText(), text);
-							assertTrue(output.outputOK());
-							assertFalse(output.needRetry());
-							assertFalse(output.needLog());	
-							return output;
-						}
-					});
-			future.get();
-		} catch (Exception e) {
-		}
-	}
-	
-	@Test
-	public void test1() {
-		SinaOauth2Input input = new UpdateInput(
-				SinaTestKeys.getAccesstoken2(), "这是飞信同步测试，新浪的工作人员请不要删除！"
-						+ new Random().nextInt(50),"{test:\"test\"}");
-		Request request = input.toHttpRequest();
-		AsyncHttpClient httpClient = new AsyncHttpClient();
+    @Test//可能会因为发布过快导致20016错误
+    public void test2() throws InstantiationException, IllegalAccessException {
+        final String text = SinaTestKeys.getMessage();
+        SinaOauth2Input input = new UpdateInput(
+                SinaTestKeys.getAccesstoken2(), text, 45, 45);
+        UpdateOutput output = TestBase.call(input, UpdateOutput.class);
+        assertEquals(output.getText(), text);
+        assertTrue(output.outputOK());
+        assertFalse(output.needRetry());
+        assertFalse(output.needLog());
+    }
 
-		try {
-			httpClient.executeRequest(request,
-					new AsyncCompletionHandler<Object>() {
-
-						@Override
-						public Object onCompleted(Response response)
-								throws Exception {
-							assertNotNull(response.getResponseBody());
-							UpdateOutput output = new UpdateOutput();
-							output.fromHttpResponse(response, null);
-							System.out.println(response.getResponseBody());
-							System.out.println(output.getCreated_at());
-							return output;
-						}
-					});
-			Thread.sleep(5000);
-		} catch (IOException e) {
-		} catch (InterruptedException e) {
-		}
-	}
-
-	@Test
-	public void test2() {
-		SinaOauth2Input input = new UpdateInput(
-				SinaTestKeys.getAccesstoken2(), "这是飞信同步测试，新浪的工作人员请不要删除！"
-						+ new Random().nextInt(50),45,45);
-		Request request = input.toHttpRequest();
-		AsyncHttpClient httpClient = new AsyncHttpClient();
-
-		try {
-			ListenableFuture<Object> future = httpClient.executeRequest(request,
-					new AsyncCompletionHandler<Object>() {
-
-						@Override
-						public Object onCompleted(Response response)
-								throws Exception {
-							assertNotNull(response.getResponseBody());
-							UpdateOutput output = new UpdateOutput();
-							output.fromHttpResponse(response, null);
-							System.out.println(response.getResponseBody());
-							System.out.println(output.getCreated_at());
-							return output;
-						}
-					});
-			future.get();
-		} catch (Exception e) {
-		}
-	}
-	
-
-	@Test
-	public void test3() {
-		SinaOauth2Input input = new UpdateInput(
-				SinaTestKeys.getAccesstoken2(), "这是飞信同步测试，新浪的工作人员请不要删除！"
-						+ new Random().nextInt(50),45,45,"{test:\"test\"}");
-		Request request = input.toHttpRequest();
-		AsyncHttpClient httpClient = new AsyncHttpClient();
-
-		try {
-			ListenableFuture<Object> future = httpClient.executeRequest(request,
-					new AsyncCompletionHandler<Object>() {
-
-						@Override
-						public Object onCompleted(Response response)
-								throws Exception {
-							assertNotNull(response.getResponseBody());
-							UpdateOutput output = new UpdateOutput();
-							output.fromHttpResponse(response, null);
-							System.out.println(response.getResponseBody());
-							System.out.println(output.getCreated_at());
-							return output;
-						}
-					});
-			future.get();
-		} catch (Exception e) {
-		}
-	}
+    @Test//可能会因为发布过快导致20016错误
+    public void test3() throws InstantiationException, IllegalAccessException {
+        final String text = SinaTestKeys.getMessage();
+        SinaOauth2Input input = new UpdateInput(
+                SinaTestKeys.getAccesstoken2(), text, 45, 45, "{test:\"test\"}");
+        UpdateOutput output = TestBase.call(input, UpdateOutput.class);
+        assertEquals(output.getText(), text);
+        assertTrue(output.outputOK());
+        assertFalse(output.needRetry());
+        assertFalse(output.needLog());
+    }
 }
