@@ -229,3 +229,7 @@ src/main/java/thirdparty/videofetch/
 src/test/java/thirdparty/uidFetcher/
 src/test/java/thirdparty/videofetch/
 feinno-app-apisdk.iml
+
+target/classes/common.properties
+
+target/classes/message.properties
