@@ -3,15 +3,11 @@
  */
 package thirdparty.tencent.t;
 
-import static org.junit.Assert.assertNotNull;
-
 import org.junit.Test;
+import thirdparty.TestBase;
+import thirdparty.tencent.TencentTestKeys;
 
-import com.ning.http.client.AsyncCompletionHandler;
-import com.ning.http.client.AsyncHttpClient;
-import com.ning.http.client.ListenableFuture;
-import com.ning.http.client.Request;
-import com.ning.http.client.Response;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author : shangrenpeng
@@ -33,51 +29,15 @@ import com.ning.http.client.Response;
 public class ReListInputTest {
 
 	@Test
-	public void test() {
-		ReListInput input = new ReListInput("3d733cc971944b9286fa5696ee762a71",
-				"5deb276d15f5ea8ef33b1f949eb9f4d2", "173373110203362");
-		Request request = input.toHttpRequest();
-		AsyncHttpClient httpClient = new AsyncHttpClient();
+	public void test() throws InstantiationException, IllegalAccessException {
+		ReListInput input = new ReListInput(TencentTestKeys.getAccesstoken(),
+				TencentTestKeys.getAccessSecret(), "173373110203362");
+        ReListOutput output = TestBase.call(input,ReListOutput.class);
+        assertTrue(output.outputOK());
 
-		try {
-			ListenableFuture<Object> future = httpClient.executeRequest(
-					request, new AsyncCompletionHandler<Object>() {
-
-						@Override
-						public Object onCompleted(Response response)
-								throws Exception {
-							assertNotNull(response.getResponseBody());
-							ReListOutput output = new ReListOutput();
-							output.fromHttpResponse(response, null);
-
-							return output;
-						}
-					});
-			future.get();
-		} catch (Exception e) {
-		}
-
-		input = new ReListInput("3d733cc971944b9286fa5696ee762a71",
-				"5deb276d15f5ea8ef33b1f949eb9f4d2", "173373110203362",1355213120L,"133345079590466");
-		request = input.toHttpRequest();
-		httpClient = new AsyncHttpClient();
-
-		try {
-			ListenableFuture<Object> future = httpClient.executeRequest(
-					request, new AsyncCompletionHandler<Object>() {
-
-						@Override
-						public Object onCompleted(Response response)
-								throws Exception {
-							assertNotNull(response.getResponseBody());
-							ReListOutput output = new ReListOutput();
-							output.fromHttpResponse(response, null);
-
-							return output;
-						}
-					});
-			future.get();
-		} catch (Exception e) {
-		}
+		input = new ReListInput(TencentTestKeys.getAccesstoken(),
+                TencentTestKeys.getAccessSecret(), "173373110203362",1355213120L,"133345079590466");
+        output = TestBase.call(input,ReListOutput.class);
+        assertTrue(output.outputOK());
 	}
 }

@@ -3,11 +3,11 @@
  */
 package thirdparty.tencent.info;
 
-import com.ning.http.client.*;
 import org.junit.Test;
+import thirdparty.TestBase;
 import thirdparty.tencent.TencentTestKeys;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author : shangrenpeng
@@ -29,30 +29,10 @@ import static org.junit.Assert.assertNotNull;
 public class UpdateInputTest {
 
 	@Test
-	public void test() {
-		UpdateInput input = new UpdateInput(
-                TencentTestKeys.getAccesstoken(),
-                TencentTestKeys.getAccessSecret());
-		Request request = input.toHttpRequest();
-		AsyncHttpClient httpClient = new AsyncHttpClient();
-
-		try {
-			ListenableFuture<Object> future = httpClient.executeRequest(
-					request, new AsyncCompletionHandler<Object>() {
-
-						@Override
-						public Object onCompleted(Response response)
-								throws Exception {
-							assertNotNull(response.getResponseBody());
-							UpdateOutput output = new UpdateOutput();
-							output.fromHttpResponse(response, null);
-
-							return output;
-						}
-					});
-			future.get();
-		} catch (Exception e) {
-		}
+	public void test() throws InstantiationException, IllegalAccessException {
+		UpdateInput input = new UpdateInput(TencentTestKeys.getAccesstoken(),TencentTestKeys.getAccessSecret());
+        UpdateOutput output = TestBase.call(input,UpdateOutput.class);
+        assertTrue(output.outputOK());
 	}
 
 }

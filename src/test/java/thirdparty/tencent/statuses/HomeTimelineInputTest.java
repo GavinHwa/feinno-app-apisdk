@@ -1,13 +1,12 @@
 /**
- * 
+ *
  */
 package thirdparty.tencent.statuses;
 
-import com.ning.http.client.*;
 import org.junit.Test;
+import thirdparty.TestBase;
 import thirdparty.tencent.TencentTestKeys;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -23,88 +22,24 @@ import static org.junit.Assert.assertTrue;
  */
 
 /**
- * @author	shangrenpeng
- * @date	2012-12-11 下午12:03:45
- *
+ * @author shangrenpeng
+ * @date 2012-12-11 下午12:03:45
  */
 public class HomeTimelineInputTest {
 
-	@Test
-	public void test() {
-		HomeTimelineInput input = new HomeTimelineInput(TencentTestKeys.getAccesstoken()
-				,
-                TencentTestKeys.getAccessSecret(), 5);
-		Request request = input.toHttpRequest();
-		AsyncHttpClient httpClient = new AsyncHttpClient();
+    @Test
+    public void test() throws InstantiationException, IllegalAccessException {
+        HomeTimelineInput input = new HomeTimelineInput(TencentTestKeys.getAccesstoken()
+                , TencentTestKeys.getAccessSecret(), 5);
+        HomeTimelineOutput output = TestBase.call(input, HomeTimelineOutput.class);
+        assertTrue(output.outputOK());
 
-		try {
-			ListenableFuture<Object> future = httpClient.executeRequest(
-					request, new AsyncCompletionHandler<Object>() {
+        input = new HomeTimelineInput(TencentTestKeys.getAccesstoken(), TencentTestKeys.getAccessSecret());
+        assertTrue(output.outputOK());
 
-						@Override
-						public Object onCompleted(Response response)
-								throws Exception {
-                            return response;
-
-						}
-					});
-			Response response = (Response) future.get();
-
-            assertNotNull(response.getResponseBody());
-            HomeTimelineOutput output = new HomeTimelineOutput();
-            output.fromHttpResponse(response, null);
-            assertTrue(output.outputOK());
-		} catch (Exception e) {
-		}
-		
-		input = new HomeTimelineInput(
-				TencentTestKeys.getAccesstoken(),
-                TencentTestKeys.getAccessSecret());
-		request = input.toHttpRequest();
-		httpClient = new AsyncHttpClient();
-
-		try {
-			ListenableFuture<Object> future = httpClient.executeRequest(
-					request, new AsyncCompletionHandler<Object>() {
-
-						@Override
-						public Object onCompleted(Response response)
-								throws Exception {
-							return response;
-						}
-					});
-            Response response = (Response) future.get();
-
-            assertNotNull(response.getResponseBody());
-            HomeTimelineOutput output = new HomeTimelineOutput();
-            output.fromHttpResponse(response, null);
-            assertTrue(output.outputOK());
-		} catch (Exception e) {
-		}
-		
-		input.reNewInput();
-		
-		request = input.toHttpRequest();
-		httpClient = new AsyncHttpClient();
-
-		try {
-			ListenableFuture<Object> future = httpClient.executeRequest(
-					request, new AsyncCompletionHandler<Object>() {
-
-						@Override
-						public Object onCompleted(Response response)
-								throws Exception {
-							return response;
-						}
-					});
-            Response response = (Response) future.get();
-
-            assertNotNull(response.getResponseBody());
-            HomeTimelineOutput output = new HomeTimelineOutput();
-            output.fromHttpResponse(response, null);
-            assertTrue(output.outputOK());
-		} catch (Exception e) {
-		}
-	}
+        input.reNewInput();
+        input = new HomeTimelineInput(TencentTestKeys.getAccesstoken(), TencentTestKeys.getAccessSecret());
+        assertTrue(output.outputOK());
+    }
 
 }

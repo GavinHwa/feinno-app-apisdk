@@ -3,11 +3,11 @@
  */
 package thirdparty.tencent.other;
 
-import com.ning.http.client.*;
 import org.junit.Test;
+import thirdparty.TestBase;
 import thirdparty.tencent.TencentTestKeys;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author : shangrenpeng
@@ -29,29 +29,11 @@ import static org.junit.Assert.assertNotNull;
 public class ShorturlInputTest {
 
 	@Test
-	public void test() {
+	public void test() throws InstantiationException, IllegalAccessException {
 		ShorturlInput input = new ShorturlInput(TencentTestKeys.getAccesstoken(),
                 TencentTestKeys.getAccessSecret(), "http://url.cn/8ZortB");
-		Request request = input.toHttpRequest();
-		AsyncHttpClient httpClient = new AsyncHttpClient();
-
-		try {
-			ListenableFuture<Object> future = httpClient.executeRequest(
-					request, new AsyncCompletionHandler<Object>() {
-
-						@Override
-						public Object onCompleted(Response response)
-								throws Exception {
-							assertNotNull(response.getResponseBody());
-							ShorturlOutput output = new ShorturlOutput();
-							output.fromHttpResponse(response, null);
-
-							return output;
-						}
-					});
-			future.get();
-		} catch (Exception e) {
-		}
+        ShorturlOutput output = TestBase.call(input,ShorturlOutput.class);
+        assertTrue(output.outputOK());
 	}
 
 }

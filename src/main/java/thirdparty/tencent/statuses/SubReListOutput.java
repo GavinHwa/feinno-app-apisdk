@@ -44,7 +44,7 @@ public class SubReListOutput extends TencentOutput {
 	public void setSeqid(String seqid) {
 		this.seqid = seqid;
 	}
-	public class Data{
+	public static class Data{
 		private List<Status> info;
 		private long timestamp;//服务器时间戳，不能用于翻页
 		private int hasnext;//0-表示还有微博可拉取，1-已拉取完毕

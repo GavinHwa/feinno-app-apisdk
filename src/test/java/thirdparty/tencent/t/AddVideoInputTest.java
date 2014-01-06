@@ -3,13 +3,11 @@
  */
 package thirdparty.tencent.t;
 
-import com.ning.http.client.*;
 import org.junit.Test;
+import thirdparty.TestBase;
 import thirdparty.tencent.TencentTestKeys;
 
-import java.util.Random;
-
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author : shangrenpeng
@@ -31,33 +29,13 @@ import static org.junit.Assert.assertNotNull;
 public class AddVideoInputTest {
 
 	@Test
-	public void test() {
-		final String text = "这是飞信同步评论测试，腾讯的工作人员请不要删除！";
+	public void test() throws InstantiationException, IllegalAccessException {
+		final String text = TencentTestKeys.getMessage();
 		AddVideoInput input = new AddVideoInput(
-                TencentTestKeys.getAccesstoken(),TencentTestKeys.getAccessSecret(), text
-						+ new Random().nextInt(50),
-				"http://v.youku.com/v_show/id_XNDg1NzUzNTI0.html",
-				"10.10.175.202");
-		Request request = input.toHttpRequest();
-		AsyncHttpClient httpClient = new AsyncHttpClient();
-
-		try {
-			ListenableFuture<Object> future = httpClient.executeRequest(
-					request, new AsyncCompletionHandler<Object>() {
-
-						@Override
-						public Object onCompleted(Response response)
-								throws Exception {
-							assertNotNull(response.getResponseBody());
-							AddVideoOutput output = new AddVideoOutput();
-							output.fromHttpResponse(response, null);
-
-							return output;
-						}
-					});
-			future.get();
-		} catch (Exception e) {
-		}
+                TencentTestKeys.getAccesstoken(),TencentTestKeys.getAccessSecret(), text,
+				"http://v.youku.com/v_show/id_XNDg1NzUzNTI0.html","10.10.175.202");
+        AddVideoOutput output = TestBase.call(input,AddVideoOutput.class);
+        assertTrue(output.outputOK());
 	}
 
 }

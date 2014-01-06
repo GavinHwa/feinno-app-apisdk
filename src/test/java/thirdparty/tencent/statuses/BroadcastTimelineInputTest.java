@@ -3,16 +3,11 @@
  */
 package thirdparty.tencent.statuses;
 
-import static org.junit.Assert.assertNotNull;
-
 import org.junit.Test;
-
+import thirdparty.TestBase;
 import thirdparty.tencent.TencentTestKeys;
-import com.ning.http.client.AsyncCompletionHandler;
-import com.ning.http.client.AsyncHttpClient;
-import com.ning.http.client.ListenableFuture;
-import com.ning.http.client.Request;
-import com.ning.http.client.Response;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author : shangrenpeng
@@ -34,49 +29,13 @@ import com.ning.http.client.Response;
 public class BroadcastTimelineInputTest {
 
 	@Test
-	public void test() {
+	public void test() throws InstantiationException, IllegalAccessException {
 		BroadcastTimelineInput input = new BroadcastTimelineInput(TencentTestKeys.getAccesstoken(), TencentTestKeys.getAccessSecret(),5);
-		Request request = input.toHttpRequest();
-		AsyncHttpClient httpClient = new AsyncHttpClient();
+        BroadcastTimelineOutput output = TestBase.call(input,BroadcastTimelineOutput.class);
+        assertTrue(output.outputOK());
 
-		try {
-			ListenableFuture<Object> future = httpClient.executeRequest(
-					request, new AsyncCompletionHandler<Object>() {
-
-						@Override
-						public Object onCompleted(Response response)
-								throws Exception {
-							assertNotNull(response.getResponseBody());
-							BroadcastTimelineOutput output = new BroadcastTimelineOutput();
-							output.fromHttpResponse(response, null);
-
-							return output;
-						}
-					});
-			future.get();
-		} catch (Exception e) {
-		}
-		
 		input = new BroadcastTimelineInput(TencentTestKeys.getAccesstoken(), TencentTestKeys.getAccessSecret());
-		request = input.toHttpRequest();
-		httpClient = new AsyncHttpClient();
-
-		try {
-			ListenableFuture<Object> future = httpClient.executeRequest(
-					request, new AsyncCompletionHandler<Object>() {
-
-						@Override
-						public Object onCompleted(Response response)
-								throws Exception {
-							assertNotNull(response.getResponseBody());
-							BroadcastTimelineOutput output = new BroadcastTimelineOutput();
-							output.fromHttpResponse(response, null);
-
-							return output;
-						}
-					});
-			future.get();
-		} catch (Exception e) {
-		}
+        output = TestBase.call(input,BroadcastTimelineOutput.class);
+        assertTrue(output.outputOK());
 	}
 }
