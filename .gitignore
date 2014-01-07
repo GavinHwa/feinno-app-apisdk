@@ -223,13 +223,9 @@ pip-log.txt
 #############
 ## need to be concealed
 #############
-
+feinno-app-apisdk.iml
 src/main/java/thirdparty/uidFetcher/
 src/main/java/thirdparty/videofetch/
-src/test/java/thirdparty/uidFetcher/
-src/test/java/thirdparty/videofetch/
-feinno-app-apisdk.iml
-
-target/classes/common.properties
-
-target/classes/message.properties
+src/test/java/thirdparty/DispatchComment.java
+src/test/java/thirdparty/DispatchInput.java
+target/
