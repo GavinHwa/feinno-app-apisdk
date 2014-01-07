@@ -3,11 +3,17 @@
  */
 package thirdparty.tencent;
 
+import com.feinno.app.common.CommonConfig;
+import com.feinno.database.DataTable;
+import com.feinno.database.Database;
+import com.feinno.database.DatabaseManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * @author : shangrenpeng
@@ -100,24 +106,23 @@ public class EmotionMatcher {
     //to root by root.add("偷笑");
 	static {
 		root = new EmotionNode('/');
-        root.add("微笑");//this is only for git Project to show how it works.
-//		Properties websiteDB = CommonConfig
-//				.getWebsiteDBProperties();
-//		Database fetionwebsiteDB = DatabaseManager.getDatabase(
-//                "fetionwebsiteDB", websiteDB);
-//
-//		String sqlFmt = "SELECT Tag from FW_ThirdPartyEmotions where serviceid = ?";
-//
-//		DataTable table;
-//		try {
-//			table = fetionwebsiteDB.executeTable(sqlFmt,4);
-//			for (int i = 0; i < table.getRowCount(); i++) {
-//				String tag = table.getRow(i).getString(1);
-//				root.add(tag.substring(1));
-//			}
-//		} catch (SQLException e) {
-//			LOGGER.error(e.getMessage());
-//		}
+		Properties websiteDB = CommonConfig
+				.getWebsiteDBProperties();
+		Database fetionwebsiteDB = DatabaseManager.getDatabase(
+                "fetionwebsiteDB", websiteDB);
+		
+		String sqlFmt = "SELECT Tag from FW_ThirdPartyEmotions where serviceid = ?";
+		
+		DataTable table;
+		try {
+			table = fetionwebsiteDB.executeTable(sqlFmt,4);
+			for (int i = 0; i < table.getRowCount(); i++) {
+				String tag = table.getRow(i).getString(1);
+				root.add(tag.substring(1));
+			}
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage());
+		}
 	}
 	
 	public static String addSpace(String message){

@@ -3,9 +3,9 @@
  */
 package thirdparty.rss;
 
-import com.feinno.app.common.DateUtils;
-import com.feinno.app.common.HtmlHelper;
-import com.feinno.app.common.StringUtils;
+import com.feinno.DateUtils;
+import com.feinno.HtmlHelper;
+import com.feinno.StringUtils;
 import com.ning.http.client.Response;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -254,7 +254,7 @@ public class RssOutput extends Output {
 			}
 
 			List<String> SrcString = HtmlHelper.getImgsSrcSafe(feed
-					.getContent_encoded());
+                    .getContent_encoded());
 			if (SrcString.size() != 0) {
 				String picSrcString = SrcString.get(0);
 				feed.setPic_src(picSrcString);

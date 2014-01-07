@@ -1,6 +1,6 @@
 package thirdparty.renren.renrenAPIv2;
 
-import com.feinno.app.common.HtmlHelper;
+import com.feinno.HtmlHelper;
 import com.feinno.app.feed.activitystreams.*;
 import thirdparty.ThirdPartyFeed;
 

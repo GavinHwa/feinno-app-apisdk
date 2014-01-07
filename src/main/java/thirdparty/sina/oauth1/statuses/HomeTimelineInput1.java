@@ -3,7 +3,7 @@
  */
 package thirdparty.sina.oauth1.statuses;
 
-import com.feinno.app.common.IpUtils;
+import com.feinno.IpUtils;
 import thirdparty.oauth.AccessToken;
 import thirdparty.oauth.Arg;
 import thirdparty.sina.oauth1.SinaOauth1Input;

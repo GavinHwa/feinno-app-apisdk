@@ -226,6 +226,8 @@ pip-log.txt
 feinno-app-apisdk.iml
 src/main/java/thirdparty/uidFetcher/
 src/main/java/thirdparty/videofetch/
-src/test/java/thirdparty/DispatchComment.java
-src/test/java/thirdparty/DispatchInput.java
+src/test/java/thirdparty/uidFetcher/
+src/test/java/thirdparty/videofetch/
+src/main/java/thirdparty/DispatchComment.java
+src/main/java/thirdparty/DispatchInput.java
 target/
